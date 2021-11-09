@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<context:component-scan base-package="com.spring.product"/>
+	<!-- DataSource 설정 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		
+	</bean>
+ 
+	<!-- <bean id="tv" class="com.spring.product.SamsungUTV" init-method="inintMethod" destroy-method="destroyMethod"/> -->
+	<!-- <bean id="tv" class="com.spring.product.SamsungUTV" lazy-init="true"/> -->
+	<!-- <bean id="tv" class="com.spring.product.SamsungUTV" scope="prototype"/> --> 
+	<!-- <bean id="tv" class="com.spring.product.SamsungUTV" p:speaker-ref="sony" p:price="55000"/> -->
+		<!-- <constructor-arg index="0" ref="apple"/> -->
+		<!-- <constructor-arg index="1" value="55000"/> -->
+		<!-- <property name="speaker" ref="apple"></property> -->
+		<!-- <property name="price" value="55000"></property> -->
+	<!-- <bean id="sony" class="com.spring.product.SonySpeaker"/> -->
+	<!-- <bean id="apple" class="com.spring.product.AppleSpeaker"/>  -->
+	
+	<!-- <bean id="CollectionBean" class="com.spring.injection.CollectionBean"> -->
+		<!-- <property name="addressList"> -->
+			<!-- <props> -->
+				<!-- <prop key="홍길동">서울시 강남구 역삼동</prop> -->
+				<!-- <prop key="김철수">서울시 성동구 무학로2길</prop> -->
+			<!-- </props> -->
+		<!-- </property> -->
+	<!-- </bean> -->
+	
+	
+	<bean class="com.spring.product.AppleSpeaker"/>
+	
+</beans>

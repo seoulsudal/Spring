@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<context:component-scan base-package="com.spring">
+	</context:component-scan>
+	<!--
+	<aop:config>
+		<aop:pointcut expression="execution(* com.spring..*Impl.*(..))" id="allPointcut"/>
+		<aop:pointcut expression="execution(* com.spring..*Impl.get*(..))" id="allPointcut"/>
+		<aop:aspect ref="log">
+			<aop:before method="printLog" pointcut-ref="allPointcut"/>
+		</aop:aspect>
+	</aop:config> -->
+	
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+		
+<!-- <bean id="afterThrowing" class="com.spring.common.AfterThrowingAdvice"/>
+	<aop:config>
+		<aop:pointcut expression="execution(* com.spring..*Impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="afterThrowing">
+			<aop:after-throwing method="exceptionLog" pointcut-ref="allPointcut" throwing="exceptObj"/>
+		</aop:aspect>
+	</aop:config>	 -->
+	
+<!-- <bean id="log" class="com.spring.common.Log4jAdvice"></bean> -->
+	
+<!-- <aop:config>
+		<aop:pointcut expression="execution(* com.spring..*Impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="log">
+			<aop:before method="printLogging" pointcut-ref="allPointcut"/>
+		</aop:aspect>
+	</aop:config> -->
+	
+ <!-- 	<bean id="userService" class="com.spring.user.impl.UserServiceImpl">
+		<property name="userDAO" ref="userDAO"></property>
+	</bean>
+	<bean id="userDAO" class="com.spring.user.dao.UserDAO"/>  -->
+</beans>
