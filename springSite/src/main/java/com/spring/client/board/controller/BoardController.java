@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.client.board.service.BoardService;
 import com.spring.client.board.vo.BoardVO;
+import com.spring.common.page.Paging;
+import com.spring.common.util.Util;
 
 
 @Controller
@@ -30,13 +32,27 @@ public class BoardController {
 	********************************************/
 
 	@RequestMapping(value = "/boardList.do", method = RequestMethod.GET)
-	public String boardList(Model model) {
+	public String boardList(@ModelAttribute BoardVO bvo, Model model) {
 		
 		log.info("boardList 호출 성공");
 		
-		List<BoardVO> boardList = boardService.boardList();
+		// 페이지 세팅
+		Paging.setPage(bvo);
+		
+		// 전체 레코드수 구현
+		int total = boardService.boardListCnt(bvo);
+		log.info("total = " + total);
+		
+		// 글번호 재설정
+		int count = total - (Util.nvl(bvo.getPage(), total) - 1) * Util.nvl(bvo.getPageSize());
+		log.info("count = " + count);
+		
+		List<BoardVO> boardList = boardService.boardList(bvo);
+		
 		model.addAttribute("boardList", boardList);
-		model.addAttribute("data");
+		model.addAttribute("count", count);
+		model.addAttribute("total", total);
+		model.addAttribute("data", bvo);
 		
 		return "board/boardList";
 		
@@ -174,9 +190,9 @@ public class BoardController {
 		if(result == 1) {
 			// url="/board/boardList.do; 수정 후 목록으로 이동
 			// 아래 url은 수정 후 상세 페이지로 이동
-			url = "boardDetail.do?b_num=" + bvo.getB_num();
+			url = "/board/boardDetail.do?b_num=" + bvo.getB_num();
 		} else {
-			url = "board/updateForm.do?b_num=" + bvo.getB_num();
+			url = "/board/updateForm.do?b_num=" + bvo.getB_num();
 		}
 		return "redirect:" + url;
 		

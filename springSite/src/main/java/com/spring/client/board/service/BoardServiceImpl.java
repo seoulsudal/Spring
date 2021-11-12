@@ -18,10 +18,25 @@ public class BoardServiceImpl implements BoardService {
 	
 	// 글목록 구현
 	@Override
-	public List<BoardVO> boardList() {
+	public List<BoardVO> boardList(BoardVO bvo) {
 		List<BoardVO> myList = null;
-		myList = boardDAO.boardList();
+		
+		// 정렬에 대한 기본값 설정
+		if(bvo.getOrder_by() == null) {
+			bvo.setOrder_by("b_num");
+		}
+		if(bvo.getOrder_sc() == null) {
+			bvo.setOrder_sc("DESC");
+		}
+		
+		myList = boardDAO.boardList(bvo);
 		return myList;
+	}
+	
+	// 전체 레코드 수 구현
+	@Override
+	public int boardListCnt(BoardVO bvo) {
+		return boardDAO.boardListCnt(bvo);
 	}
 
 	// 글입력 구현
