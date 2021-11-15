@@ -76,7 +76,7 @@ public class PagingTag extends TagSupport {
 		ret += " <div class='paginate'> ";
 		
 		if(page > 1) {
-			ret += " <a href=\"javascript:goPage('1')\"><span><img src=/resources/images/common/btn_paginate_first.gif' alt='처음'/></span></a>";
+			ret += " <a href=\"javascript:goPage('1')\"><span><img src='/resources/images/common/btn_paginate_first.gif' alt='처음'/></span></a>";
 		} else {
 			ret += " <span><img src='/resources/images/common/btn_paginate_first.gif' alt='처음'/></span> ";
 		}
@@ -104,7 +104,7 @@ public class PagingTag extends TagSupport {
 		}
 		
 		if(page < lastPage) {
-			ret += " <a href\"javascript:goPage('" + lastPage + "')\"><span><img src='/resources/images/common/btn_paginate_last.gif' alt='마지막'/></span></a> ";
+			ret += " <a href=\"javascript:goPage('" + lastPage + "')\"><span><img src='/resources/images/common/btn_paginate_last.gif' alt='마지막'/></span></a> ";
 		} else {
 			ret += " <span><img src='/resources/images/common/btn_paginate_last.gif' alt='마지막'/></span> ";
 		}

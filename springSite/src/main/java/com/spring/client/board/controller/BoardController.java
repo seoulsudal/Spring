@@ -1,6 +1,9 @@
 package com.spring.client.board.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.client.board.service.BoardService;
 import com.spring.client.board.vo.BoardVO;
+import com.spring.common.file.FileUploadUtil;
 import com.spring.common.page.Paging;
 import com.spring.common.util.Util;
 
@@ -76,12 +80,20 @@ public class BoardController {
 	********************************************/
 	
 	@RequestMapping(value = "/boardInsert.do", method = RequestMethod.POST)
-	public String boardInsert(@ModelAttribute BoardVO bvo, Model model) {
+	public String boardInsert(@ModelAttribute BoardVO bvo, Model model, HttpServletRequest request) throws IllegalStateException, IOException {
 		
 		log.info("boardInsert 호출 성공");
 		
+		log.info("fileName : " + bvo.getFile().getOriginalFilename());
+		log.info("b_title : " + bvo.getB_title());
+		
 		int result = 0;
 		String url = "";
+		
+		if(bvo.getFile() != null) {
+			String b_file = FileUploadUtil.fileUpload(bvo.getFile(), request, "board");
+			bvo.setB_file(b_file);
+		}
 		
 		result = boardService.boardInsert(bvo);
 		
@@ -105,14 +117,14 @@ public class BoardController {
 		log.info("boardDetail 호출 성공");
 		log.info("b_num = " + pvo.getB_num());
 		
-		BoardVO detaile = new BoardVO();
-		detaile = boardService.boardDetail(pvo);
+		BoardVO detail = new BoardVO();
+		detail = boardService.boardDetail(pvo);
 		
-		if(detaile != null) {
-			detaile.setB_content(detaile.getB_content().toString().replace("\n", "<br>"));
+		if(detail != null && (!detail.equals(""))) {
+			detail.setB_content(detail.getB_content().toString().replaceAll("\n", "<br>"));
 		}
 		
-		model.addAttribute("detail", detaile);
+		model.addAttribute("detail", detail);
 		
 		return "board/boardDetail";
 		
@@ -178,22 +190,40 @@ public class BoardController {
 	********************************************/
 	
 	@RequestMapping(value = "/boardUpdate.do", method = RequestMethod.POST)
-	public String boardUpdate(@ModelAttribute BoardVO bvo) {
+	public String boardUpdate(@ModelAttribute BoardVO bvo, HttpServletRequest request) throws IllegalStateException, IOException {
 		
 		log.info("boardUpdate 호출 성공");
 		
 		int result = 0;
 		String url = "";
+		String b_file = "";
+		
+		if(!bvo.getFile().isEmpty()) {
+			log.info("======== file = " + bvo.getFile().getOriginalFilename());
+			
+			if(!bvo.getB_file().isEmpty()) {
+				FileUploadUtil.fileDelete(bvo.getB_file(), request);
+			}
+			
+			b_file = FileUploadUtil.fileUpload(bvo.getFile(), request, "board");
+			bvo.setB_file(b_file);
+		} else {
+			log.info("첨부파일 없음");
+			bvo.setB_file("");
+		}
+		
+		log.info("========b_file = " + bvo.getB_file());
 		
 		result = boardService.boardUpdate(bvo);
 		
 		if(result == 1) {
 			// url="/board/boardList.do; 수정 후 목록으로 이동
 			// 아래 url은 수정 후 상세 페이지로 이동
-			url = "/board/boardDetail.do?b_num=" + bvo.getB_num();
-		} else {
-			url = "/board/updateForm.do?b_num=" + bvo.getB_num();
-		}
+			url = "/board/boardDetail.do?b_num=" + bvo.getB_num() + "&page=" + bvo.getPage() + "&pageSize=" + bvo.getPageSize();
+		} 
+//		else {
+//			url = "/board/updateForm.do?b_num=" + bvo.getB_num();
+//		}
 		return "redirect:" + url;
 		
 	}
@@ -204,7 +234,7 @@ public class BoardController {
 	********************************************/
 	
 	@RequestMapping(value = "/boardDelete.do")
-	public String boardDelete(@ModelAttribute BoardVO bvo) {
+	public String boardDelete(@ModelAttribute BoardVO bvo, HttpServletRequest request) throws IOException {
 		
 		log.info("boardDelete 호출 성공");
 		
@@ -212,12 +242,16 @@ public class BoardController {
 		int result = 0;
 		String url = "";
 		
+		if(!bvo.getB_file().isEmpty()) {
+			FileUploadUtil.fileDelete(bvo.getB_file(), request);
+		}
+		
 		result = boardService.boardDelete(bvo.getB_num());
 		
 		if(result == 1) {
-			url = "/board/boardList.do";
+			url = "/board/boardList.do?page=" + bvo.getPage() + "&pageSize=" + bvo.getPageSize();
 		} else {
-			url = "/board/boardDetail.do?b_num=" + bvo.getB_num();
+			url = "/board/boardDetail.do?b_num=" + bvo.getB_num() + "&page=" + bvo.getPage() + "&pageSize=" + bvo.getPageSize();
 		}
 		
 		return "redirect:" + url;

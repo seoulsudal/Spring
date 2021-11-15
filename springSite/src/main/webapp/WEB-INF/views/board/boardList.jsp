@@ -122,7 +122,7 @@
 		<form name="detailForm" id="detailForm">
 			<input type="hidden" name="b_num" id="b_num">
 			<input type="hidden" name="page" value="${data.page}">
-			<input type="text">
+			<input type="hidden" name="pageSize" value="${data.pageSize}">
 		</form>
 		
 		<%-- ========== 검색기능 시작 ========== --%>
