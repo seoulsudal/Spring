@@ -79,7 +79,7 @@ public class BoardController {
 	* 글쓰기 구현하기
 	********************************************/
 	
-	@RequestMapping(value = "/boardInsert.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/boardInsert", method = RequestMethod.POST)
 	public String boardInsert(@ModelAttribute BoardVO bvo, Model model, HttpServletRequest request) throws IllegalStateException, IOException {
 		
 		log.info("boardInsert 호출 성공");
@@ -111,7 +111,7 @@ public class BoardController {
 	* 글 상세보기 구현
 	********************************************/
 	
-	@RequestMapping(value = "/boardDetail.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/boardDetail", method = RequestMethod.GET)
 	public String boardDetail(@ModelAttribute BoardVO pvo, Model model) {
 		
 		log.info("boardDetail 호출 성공");
@@ -142,7 +142,7 @@ public class BoardController {
 	********************************************/
 	
 	@ResponseBody
-	@RequestMapping(value = "/pwdConfirm.do", method = RequestMethod.POST, produces = "text/plain; charset=UTF-8")
+	@RequestMapping(value = "/pwdConfirm", method = RequestMethod.POST, produces = "text/plain; charset=UTF-8")
 	public String pwdConfirm(@ModelAttribute BoardVO bvo) {
 		
 		log.info("pwdConfirm 호출 성공");
@@ -168,7 +168,7 @@ public class BoardController {
 	* @return : BoardVO
 	********************************************/
 	
-	@RequestMapping(value = "/updateForm.do")
+	@RequestMapping(value = "/updateForm")
 	public String updateForm(@ModelAttribute BoardVO bvo, Model model) {
 		
 		log.info("updateForm 호출 성공");
@@ -189,7 +189,7 @@ public class BoardController {
 	* @param : BoardVO
 	********************************************/
 	
-	@RequestMapping(value = "/boardUpdate.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/boardUpdate", method = RequestMethod.POST)
 	public String boardUpdate(@ModelAttribute BoardVO bvo, HttpServletRequest request) throws IllegalStateException, IOException {
 		
 		log.info("boardUpdate 호출 성공");
@@ -233,7 +233,7 @@ public class BoardController {
 	* @throws IOException
 	********************************************/
 	
-	@RequestMapping(value = "/boardDelete.do")
+	@RequestMapping(value = "/boardDelete")
 	public String boardDelete(@ModelAttribute BoardVO bvo, HttpServletRequest request) throws IOException {
 		
 		log.info("boardDelete 호출 성공");
