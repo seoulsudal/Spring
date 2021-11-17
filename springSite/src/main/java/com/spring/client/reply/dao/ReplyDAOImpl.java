@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.spring.client.reply.vo.ReplyVO;
 
 @Repository
-public class ReplyDAOImpl implements ReplyDAO {
+public class ReplyDaoImpl implements ReplyDao{
 
 	@Autowired
 	private SqlSession session;
@@ -26,22 +26,25 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return session.insert("replyInsert");
 	}
 
-	// 글 비밀번호 구현
 	@Override
 	public int pwdConfirm(ReplyVO rvo) {
-		return (Integer)session.selectOne("pwdConfirm");
+		return (Integer) session.selectOne("pwdConfirm"); 
 	}
-
+	
 	// 글 수정 구현
 	@Override
 	public int replyUpdate(ReplyVO rvo) {
 		return session.update("replyUpdate");
 	}
 
-	// 글 삭제 구현
 	@Override
 	public int replyDelete(int r_num) {
-		return session.delete("replyDelete", r_num);
+		return session.delete("replyDelete");
+	}
+
+	@Override
+	public int replyChoiceDelete(int b_num) {
+		return session.delete("replyChoiceDelete", b_num);
 	}
 
 }

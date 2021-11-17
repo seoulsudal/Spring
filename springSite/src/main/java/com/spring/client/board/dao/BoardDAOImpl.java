@@ -9,30 +9,29 @@ import org.springframework.stereotype.Repository;
 import com.spring.client.board.vo.BoardVO;
 
 @Repository
-public class BoardDAOImpl implements BoardDAO {
-
+public class BoardDaoImpl implements BoardDao {
 	@Autowired
 	private SqlSession session;
 	
-	// 글목록 구현
+	// 글 목록 구현
 	@Override
 	public List<BoardVO> boardList(BoardVO bvo) {
 		return session.selectList("boardList", bvo);
 	}
-
+	
 	// 전체 레코드 건수 구현
 	@Override
 	public int boardListCnt(BoardVO bvo) {
 		return (Integer)session.selectOne("boardListCnt");
 	}
 
-	// 글입력 구현
+	// 글 입력 구현
 	@Override
 	public int boardInsert(BoardVO bvo) {
 		return session.insert("boardInsert", bvo);
 	}
 
-	// 글상세 구현
+	// 글 상세 구현
 	@Override
 	public BoardVO boardDetail(BoardVO bvo) {
 		return (BoardVO)session.selectOne("boardDetail", bvo);
@@ -44,16 +43,22 @@ public class BoardDAOImpl implements BoardDAO {
 		return (Integer)session.selectOne("pwdConfirm", bvo);
 	}
 
-	// 글수정 구현
+	// 글 수정 구현
 	@Override
 	public int boardUpdate(BoardVO bvo) {
-		return session.update("boardUpdate", bvo);
+		return session.update("boardUpdate", bvo); 
 	}
 
-	// 글삭제 구현
+	// 글 삭제 구현(댓글 번호로 삭제)
 	@Override
 	public int boardDelete(int b_num) {
 		return session.delete("boardDelete", b_num);
+	}
+
+	// 글 삭제 구현(게시글 번호로 해당 게시글 댓글 삭제)
+	@Override
+	public int replyChoiceDelete(int b_num) {
+		return session.delete("replyChoiceDelete", b_num);
 	}
 
 }
