@@ -42,7 +42,7 @@
 				userPw = #{userPw},
 			</if>
 				phone = #{phone}, email = #{email}
-		WHERE userIid = #{userId}				
+		WHERE userId = #{userId}				
 	</update>
 	
 	<delete id="memberDelete" parameterType="String">

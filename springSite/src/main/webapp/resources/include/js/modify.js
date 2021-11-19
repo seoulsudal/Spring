@@ -71,7 +71,7 @@ $(function(){
 });
 
 function passwordCheck(){
-	if($("#userPw").va() != $("#userPwCheck").val()){
+	if($("#userPw").val() != $("#userPwCheck").val()){		
 		alert("패스워드 입력이 일치하지 않습니다.");
 		$("#userPw").val("");
 		$("#userPwCheck").val("");
@@ -83,7 +83,7 @@ function passwordCheck(){
 
 function idPwdCheck(){
 	var userId = loginUserId;
-	var userPw = $("userPw").val();
+	var userPw = $("#userPw").val();
 	
 	if(userPw.indexOf(userId) > -1){
 		alert("비밀번호에 아이디를 포함할 수 없습니다.");
@@ -93,5 +93,4 @@ function idPwdCheck(){
 	} else {
 		return true;
 	}
-	
 }
