@@ -12,7 +12,7 @@
 	
 	<definition name="admin/board/*" extends="basic">
 		<put-attribute name="sub" value=""/>
-		<put-attribute name="main" value="/WEB-INF-/views/admin/board/{1}.jsp"/>
+		<put-attribute name="main" value="/WEB-INF/views/admin/board/{1}.jsp"/>
 	</definition>
 	
 	<definition name="admin/member/*" extends="basic">
