@@ -15,5 +15,32 @@
 		SELECT no, s_num, s_name
 		FROM subject
 	</select>
+	
+	<!-- seq 다른 방법은 values에 subject_seq.nextval 선언-->
+	<insert id="insertSubject" parameterType="com.spring.subjectvo.SubjectVO" >
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT subject_seq.nextval
+			FROM dual
+		</selectKey>
+		INSERT INTO subject (no, s_num, s_name)
+		VALUES(#{no}, #{s_num}, #{s_name})
+	</insert>
 
+	<select id="selectSubject" parameterType="int" resultMap="subjectVO">
+		SELECT no, s_num, s_name
+		FROM subject
+		WHERE no = #{no}
+	</select>
+	
+	<update id="updateSubject" parameterType="com.spring.subjectvo.SubjectVO">
+		UPDATE subject
+		SET s_num = #{s_num}, s_name = #{s_name}
+		WHERE no = #{no}
+	</update>
+	
+	<delete id="deleteSubject" parameterType="int">
+		DELETE FROM subject
+		WHERE no = #{no}
+	</delete>
+	
 </mapper>

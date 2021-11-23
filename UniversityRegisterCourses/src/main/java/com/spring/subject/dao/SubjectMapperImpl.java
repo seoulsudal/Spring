@@ -2,8 +2,9 @@ package com.spring.subject.dao;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.spring.subject.vo.SubjectVO;
@@ -12,7 +13,7 @@ import com.spring.subject.vo.SubjectVO;
 public class SubjectMapperImpl implements SubjectMapper {
 
 	// 자동으로 인스턴스
-	@Autowired
+	@Inject
 	// root-context에서 mybatis 셋팅에 한 id명
 	private SqlSession sqlSession;
 	
