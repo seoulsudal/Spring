@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.studentdao.StudentMapper">
+	
+	<resultMap type="com.spring.studentvo.StudentVO" id="studentVO">
+		<result property="no" column="no"/>	
+		<result property="sd_num" column="sd_num" />
+		<result property="sd_name" column="sd_name" />
+		<result property="sd_id" column="sd_id"/>
+		<result property="sd_passwd" column="sd_passwd"/>
+		<result property="s_num" column="s_num"/>
+		<result property="sd_birthday" column="sd_birthday"/>
+		<result property="sd_phone" column="sd_phone"/>
+		<result property="sd_address" column="sd_address"/>
+		<result property="sd_email" column="sd_email"/>
+		<result property="sd_date" column="sd_date"/>
+	</resultMap>
+
+	<resultMap type="com.spring.subjectvo.SubjectVO" id="subjectNum">
+		<result property="s_num" column="s_num"/>
+		<result property="s_name" column="s_name"/>
+	</resultMap>
+	
+	<select id="listStudent" parameterType="com.spring.studentvo.StudentVO" resultMap="studentVO">
+		/* Mapper - listStudent */
+		SELECT
+			no,
+			sd_num,
+			sd_name,
+			sd_id,
+			sd_passwd,
+			s_num,
+			sd_birthday,
+			sd_phone,
+			sd_address,
+			sd_email,
+			sd_date
+		FROM student
+		<where>
+			<if test="sd_name != null and sd_name != ''">
+				sd_name Like '%'||#{sd_name}||'%'
+			</if>
+		</where>
+		ORDER BY no ASC
+	</select>
+
+	<insert id="insertStudent" parameterType="com.spring.studentvo.StudentVO">
+		/* Mapper - insertSubject */
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT student_seq.nextval
+			FROM dual
+		</selectKey>
+		INSERT INTO student(no, sd_num, sd_name, sd_id, sd_passwd, s_num, sd_birthday, sd_phone, sd_address, sd_email)
+		VALUES(#{no}, #{sd_num}, #{sd_name}, #{sd_id}, #{sd_passwd}, #{s_num}, #{sd_birthday}, #{sd_phone}, #{sd_address}, #{sd_email})
+	</insert>
+
+	<select id="selectStudent" parameterType="int" resultMap="studentVO">
+		/* Mapper - selectStudent */
+		SELECT no, sd_num, sd_name, sd_id, sd_passwd, s_num, sd_birthday, sd_phone, sd_address, sd_email, sd_date
+		FROM student
+		WHERE no = ${no}
+	</select>
+
+	<select id="selectSubjectNum" resultMap="subjectNum">
+		/* Mapper - selectSubjectNum */
+		SELECT s_num, s_name
+		FROM subject
+	</select>
+
+</mapper>
