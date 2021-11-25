@@ -15,6 +15,16 @@ public class StudentVO {
 	private String sd_email; 	// 이메일
 	private Date sd_date;		// 등록일
 
+	public StudentVO() {
+		super();
+	}
+
+	public StudentVO(int no, String sd_passwd) {
+		super();
+		this.no = no;
+		this.sd_passwd = sd_passwd;
+	}
+
 	public int getNo() {
 		return no;
 	}

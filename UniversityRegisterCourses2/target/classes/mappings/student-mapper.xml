@@ -56,6 +56,19 @@
 		VALUES(#{no}, #{sd_num}, #{sd_name}, #{sd_id}, #{sd_passwd}, #{s_num}, #{sd_birthday}, #{sd_phone}, #{sd_address}, #{sd_email})
 	</insert>
 
+	<update id="updateStudent" parameterType="com.spring.studentvo.StudentVO">
+		/* Mapper - updateStudent */
+		UPDATE student
+		SET sd_passwd = #{sd_passwd}, sd_birthday = #{sd_birthday}, sd_phone = #{sd_phone}, sd_address = #{sd_address}, sd_email = #{sd_email}
+		WHERE no = #{no}
+	</update>
+	
+	<delete id="deleteStudent" parameterType="com.spring.studentvo.StudentVO">
+		/* Mapper - deleteStudent */
+		DELETE FROM student
+		WHERE no = #{no}
+	</delete>
+	
 	<select id="selectStudent" parameterType="int" resultMap="studentVO">
 		/* Mapper - selectStudent */
 		SELECT no, sd_num, sd_name, sd_id, sd_passwd, s_num, sd_birthday, sd_phone, sd_address, sd_email, sd_date
@@ -69,4 +82,24 @@
 		FROM subject
 	</select>
 
+	<select id="idCheck" parameterType="java.lang.String" resultMap="studentVO">
+		SELECT sd_id
+		FROM student
+		WHERE sd_id = #{id}
+	</select>
+	
+	<select id="pwcheck" parameterType="com.spring.studentvo.StudentVO" resultType="int">
+		SELECT NVL((
+					SELECT 1
+					FROM student
+					WHERE no = #{no} AND sd_passwd = #{sd_passwd}
+					), 0) AS state
+		FROM dual
+	</select>
+	
+	<select id="studentCount" parameterType="java.lang.String" resultType="java.lang.String">
+		SELECT LPAD(count(*) + 1, 4, '0') AS studentCount
+		FROM student
+		WHERE s_num = #{s_num}
+	</select>
 </mapper>

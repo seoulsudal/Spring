@@ -37,4 +37,30 @@ public class StudentMapperImpl implements StudentMapper {
 		return sqlSession.selectList(nameSpace + ".selectSubjectNum");
 	}
 
+	@Override
+	public int updateStudent(StudentVO param) {
+		return sqlSession.update(nameSpace + ".updateStudent", param);
+	}
+
+	@Override
+	public int deleteStudent(StudentVO param) {
+		return sqlSession.delete(nameSpace + ".deleteStudent", param);
+	}
+
+	@Override
+	public String studentCount(String s_num) {
+		return sqlSession.selectOne(nameSpace + ".studentCount", s_num);
+	}
+
+	@Override
+	public StudentVO idCheck(String id) {
+		return sqlSession.selectOne(nameSpace + ".idCheck", id);
+	}
+
+	@Override
+	public int pwcheck(String sd_passwd, int no) {
+		StudentVO svo = new StudentVO(no, sd_passwd);
+		return sqlSession.selectOne(nameSpace + ".pwcheck", svo);
+	}
+
 }

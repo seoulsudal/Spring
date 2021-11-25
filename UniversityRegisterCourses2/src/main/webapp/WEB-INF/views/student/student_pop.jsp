@@ -8,7 +8,137 @@
 <title>학생 테이블 팝업</title>
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
-
+	$(document).ready(function() {
+		var mode = "${mode}";
+		if(mode == "insert"){
+			$('#insertData').attr('disabled', true);
+			$('#updateData').attr('disabled', true);
+			$('#deleteData').attr('disabled', true);
+		} else if(mode == "update"){
+			$('#no').attr('readonly', true);
+			$('#sd_id').attr('readonly', true);
+			$('#sd_name').attr('readonly', true);
+			$('#s_num').attr('readonly', true);
+			
+			$("#idCheck").attr('disabled', true);
+			$('#insertData').attr('disabled', true);
+			$('#updateData').attr('disabled', false);
+			$('#deleteData').attr('disabled', false);
+		}
+		
+		$("#insertData").click(function() {
+			if(!validateForm()){
+				return;
+			}
+			if($("#no").val() == ""){
+				$("#no").val(0);
+			}
+			if(confirm('학생 정보 등록을 진행할까요?')){
+				$("#studentForm").attr("action", "/student/insertStudent.do");
+				$("#studentForm").submit();
+			}
+		});
+		
+		$("#updateData").click(function() {
+			if(!validateForm){
+				retuen;
+			}
+			if(confirm('학생 정보 수정을 진행할까요?')){
+				$("#studentForm").attr("action", "/student/updateStudent.do");
+				$("#studentForm").submit();
+			}
+		});
+		
+		$("#deleteData").click(function() {
+			if(!validateForm){
+				retuen;
+			}
+			if(confirm('학생 정보 삭제를 진행할까요?')){
+				$("#studentForm").attr("action", "/student/deleteStudent.do");
+				$("#studentForm").submit();
+			}
+		});
+		
+		$("#closeWindow").click(function() {
+			window.close();
+		});
+		
+		$("#s_num").click(function() {
+			$.ajax({
+				url:"/student/studentNum.do",
+				type:"post",
+				data:"s_num=" + $('select option:checked').val(),
+				datatype:"text",
+				error:function(){
+					alert('시스템 오류 입니다. 관리자에게 문의 하세요.');
+				},
+				success:function(resultData){
+					$("#sd_num").val(resultData);
+				}
+			});
+		});
+		
+		$("#idCheck").click(function() {
+			if($("#sd_id").val().replace(/\s/g, "") == ""){
+				alert('아이디를 입력해주세요.');
+				return false;
+			} else {
+				$.ajax({
+					url:"/student/idcheck.do",
+					type:"post",
+					data:"sd_id=" + $("#sd_id").val(),
+					datatype:"text",
+					success:function(resultData){
+						if(resultData == "ok"){
+							alert("사용할 수 없는 아이디 입니다.");
+							$("#sd_id").val("");
+							$("#sd_id").focus();
+						} else {
+							alert("사용할 수 있는 아이디 입니다.");
+							$("#sd_id").attr("readOnly", "readOnly");
+							$("#insertData").attr('disabled', false);
+						}
+					},
+					error:function(){
+						alert('시스템 오류 입니다. 관리자에게 문의하세요.');
+					}
+				});
+			}
+		});
+		
+	});
+	
+	function validateForm() {
+		if($("#sd_name").val().replace(/\s/g, "") == ""){
+			alert('학생이름을 입력해주세요.');
+			return false;
+		}
+		if($("#sd_id").val().replace(/\s/g, "") == ""){
+			alert('아이디을 입력해주세요.');
+			return false;
+		}
+		if($("#sd_passwd").val().replace(/\s/g, "") == ""){
+			alert('비밀번호를 입력해주세요.');
+			return false;
+		}
+		if($("#sd_birthday").val().replace(/\s/g, "") == ""){
+			alert('생년월일을 입력해주세요.');
+			return false;
+		}
+		if($("#sd_phone").val().replace(/\s/g, "") == ""){
+			alert('핸드폰번호를 입력해주세요.');
+			return false;
+		}
+		if($("#sd_address").val().replace(/\s/g, "") == ""){
+			alert('주소를 입력해주세요.');
+			return false;
+		}
+		if($("#sd_email").val().replace(/\s/g, "") == ""){
+			alert('이메일을 입력해주세요.');
+			return false;
+		}
+		return true;
+	}
 </script>
 <style type="text/css">
 .required{
@@ -65,8 +195,8 @@ table th{
 					</tr>
 					<tr>
 						<th><span class="required">*</span>아이디</th>
-						<td><input type="text" id="sd_id" name="sd_id" value="${StudentVO.sd_id}"></td>
-						<td><input type="button" value="중복체크" id="idCheck">
+						<td><input type="text" id="sd_id" name="sd_id" value="${StudentVO.sd_id}">
+						<input type="button" value="중복체크" id="idCheck"></td>
 					</tr>
 					<tr>
 						<th><span class="required">*</span>비밀번호</th>

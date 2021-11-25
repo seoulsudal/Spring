@@ -9,8 +9,40 @@
 <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">
 	function passwordCheck(row_no) {
+		var passwd = "#passwd" + row_no;
+		var btnPw = "#btnPw" + row_no;
+		var update = "#update" + row_no;
 		
+		if($(passwd).val().replace(/\s/g, "") == ""){
+			alert('비밀번호를 입력해주세요.');
+			return false;
+		} else {
+			$.ajax({
+				url:"/student/pwcheck.do",
+				type:"post",
+				data:"sd_passwd=" + $(passwd).val() + "&no=" + row_no,
+				datatype:"text",
+				success:function(resultData){
+					var ok = resultData;
+					if(ok == "1"){
+						alert("비밀번호가 맞습니다.");
+						$(passwd).val("");
+						$(update).attr("disabled", false);
+						$(passwd).attr("disabled", true);
+						$(btnPw).attr("disabled", true);
+					} else {
+						alert("비밀번호가 틀립니다. 다시 입력해주세요.");
+						$(passwd).val("");
+						$(passwd).focus();
+					}
+				},
+				error:function(){
+					alert('시스템 오류 입니다. 관리자에게 문의 하세요.');
+				}
+			});
+		}
 	}
+	
 	function insertPopup() {
 		$("#no").val(0);
 		window.open("", "pop", "width=900, height = 700");
@@ -18,7 +50,8 @@
 		$("#popupForm").attr("target", "pop");
 		$("#popupForm").submit();
 	}
-	function updatePopup() {
+	
+	function updatePopup(no) {
 		var passwd = "#passwd" + no;
 		var btnPw = "#btnPw" + no;
 		var update = "#update" + no;
@@ -33,6 +66,7 @@
 		$("#popupForm").attr("target", "pop");
 		$("#popupForm").submit();
 	}
+	
 	function listSearch() {
 		$("#searchForm").attr("action", "/student/listStudent.do");
 		$("#searchForm").submit();

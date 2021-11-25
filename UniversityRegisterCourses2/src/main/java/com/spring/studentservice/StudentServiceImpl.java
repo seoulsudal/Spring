@@ -44,4 +44,29 @@ public class StudentServiceImpl implements StudentService {
 		return list;
 	}
 
+	@Override
+	public int updateStudent(StudentVO param) {
+		return studentMapper.updateStudent(param);
+	}
+
+	@Override
+	public int deleteStudent(StudentVO param) {
+		return studentMapper.deleteStudent(param);
+	}
+
+	@Override
+	public String studentCount(String s_num) {
+		return studentMapper.studentCount(s_num);
+	}
+
+	@Override
+	public StudentVO idCheck(String id) {
+		return studentMapper.idCheck(id);
+	}
+
+	@Override
+	public int pwcheck(String sd_passwd, int no) {
+		return studentMapper.pwcheck(sd_passwd, no);
+	}
+
 }

@@ -36,6 +36,9 @@
 </script>
 </head>
 <body>
+	<div>
+		<a href="../">메인</a>
+	</div>
 	<form id="popupForm" name="popupForm" method="post">
 		<input type="hidden" name="no" id="no"> 
 	</form>

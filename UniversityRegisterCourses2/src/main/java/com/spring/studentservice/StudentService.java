@@ -12,5 +12,10 @@ public interface StudentService {
 	
 	public StudentVO selectStudent(int no);
 	public List<SubjectVO> selectSubjectNum(SubjectVO param);
+	public int updateStudent(StudentVO param);
+	public int deleteStudent(StudentVO param);
+	public String studentCount(String s_num);
+	public StudentVO idCheck(String id);
+	public int pwcheck(String sd_passwd, int no);
 	
 }
