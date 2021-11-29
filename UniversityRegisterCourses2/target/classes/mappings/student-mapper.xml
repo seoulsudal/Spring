@@ -102,4 +102,5 @@
 		FROM student
 		WHERE s_num = #{s_num}
 	</select>
+	
 </mapper>

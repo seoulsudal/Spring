@@ -9,5 +9,6 @@
 <body>
 <a href="subject/listSubject.do">[학과]</a>
 <a href="student/listStudent.do">[학생]</a>
+<a href="lesson/listLesson.do">[과목]</a>
 </body>
 </html>
